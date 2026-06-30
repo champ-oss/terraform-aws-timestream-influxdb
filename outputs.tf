@@ -1,14 +1,26 @@
-output "aws_region" {
-  description = "AWS Region name"
-  value       = data.aws_region.this.name
+output "password_ssm_parameter_name" {
+  description = "SSM parameter containing the admin password."
+  value       = var.enabled ? aws_ssm_parameter.password[0].name : ""
 }
 
-output "private_subnet_ids" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group#subnet_ids"
-  value       = var.private_subnet_ids
+output "security_group_id" {
+  description = "Security group ID."
+  value       = var.enabled ? aws_security_group.this[0].id : ""
 }
 
-output "vpc_id" {
-  description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group#vpc_id"
-  value       = var.vpc_id
+output "endpoint" {
+  description = "InfluxDB endpoint."
+  value       = var.enabled ? aws_timestreaminfluxdb_db_instance.this[0].endpoint : ""
 }
+
+output "port" {
+  description = "InfluxDB port."
+  value       = var.enabled ? aws_timestreaminfluxdb_db_instance.this[0].port : ""
+}
+
+output "username" {
+  description = "Administrator username."
+  value       = var.enabled ? aws_timestreaminfluxdb_db_instance.this[0].username : ""
+}
+
+
