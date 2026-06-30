@@ -62,7 +62,7 @@ variable "publicly_accessible" {
   default     = false
 }
 
-variable "organization_name" {
+variable "organization" {
   description = "The name of the organization for the database instance"
   type        = string
   default     = "org_name"
