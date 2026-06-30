@@ -7,7 +7,7 @@ data "aws_vpcs" "this" {
 data "aws_subnets" "this" {
   tags = {
     purpose = "vega"
-    Type    = "Private"
+    Type    = "Public"
   }
 
   filter {
