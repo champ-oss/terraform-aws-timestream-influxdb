@@ -17,8 +17,8 @@ data "aws_subnets" "this" {
 }
 
 module "this" {
-  source             = "../../"
-  private_subnet_ids = data.aws_subnets.this.ids
-  vpc_id             = data.aws_vpcs.this.ids[0]
+  source              = "../../"
+  vpc_subnet_ids      = data.aws_subnets.this.ids
+  vpc_id              = data.aws_vpcs.this.ids[0]
   publicly_accessible = true
 }
