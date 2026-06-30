@@ -41,7 +41,7 @@ variable "allocated_storage" {
 variable "deployment_type" {
   description = "https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/timestreaminfluxdb_db_instance#deployment_type-1"
   type        = string
-  default     = "Single_AZ"
+  default     = "SINGLE_AZ"
 }
 
 variable "tags" {
