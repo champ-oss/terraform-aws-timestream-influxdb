@@ -8,7 +8,11 @@ locals {
 }
 
 resource "random_password" "this" {
-  count   = var.enabled ? 1 : 0
-  length  = 32
-  special = true
+  count = var.enabled ? 1 : 0
+
+  length           = 32
+  special          = false
+  upper            = true
+  lower            = true
+  numeric          = true
 }
