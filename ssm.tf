@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "password" {
-  count =     var.enabled ? 1 : 0
+  count       = var.enabled ? 1 : 0
   name        = "/${var.git}/influx/password"
   description = "Password for ${var.git} timestream influxdb instance"
   type        = "SecureString"

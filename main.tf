@@ -8,7 +8,7 @@ locals {
 }
 
 resource "random_password" "this" {
-  count = var.enabled  ? 1 : 0
+  count   = var.enabled ? 1 : 0
   length  = 32
   special = true
 }

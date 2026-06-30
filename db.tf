@@ -1,6 +1,8 @@
 resource "aws_timestreaminfluxdb_db_instance" "this" {
   count                  = var.enabled ? 1 : 0
   name                   = var.git
+  organization_name      = var.organization_name
+  bucket                 = var.bucket
   username               = var.username
   password               = random_password.this[0].result
   db_instance_type       = var.db_instance_type

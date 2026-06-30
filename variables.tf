@@ -62,3 +62,15 @@ variable "publicly_accessible" {
   default     = false
 }
 
+variable "organization_name" {
+  description = "The name of the organization for the database instance"
+  type        = string
+  default     = "org_name"
+}
+
+variable "bucket" {
+  description = "The name of the bucket for the database instance"
+  type        = string
+  default     = "metrics"
+}
+
