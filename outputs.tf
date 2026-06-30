@@ -1,6 +1,7 @@
 output "password_ssm_parameter_name" {
   description = "SSM parameter containing the admin password."
   value       = var.enabled ? aws_ssm_parameter.password[0].name : ""
+  sensitive   = true
 }
 
 output "security_group_id" {
