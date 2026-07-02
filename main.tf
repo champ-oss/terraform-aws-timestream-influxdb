@@ -1,5 +1,18 @@
-data "aws_region" "this" {}
+locals {
+  tags = {
+    git       = var.git
+    cost      = "shared"
+    creator   = "terraform"
+    component = "timestream-influxdb"
+  }
+}
 
-resource "random_id" "this" {
-  byte_length = 3
+resource "random_password" "this" {
+  count = var.enabled ? 1 : 0
+
+  length  = 32
+  special = false
+  upper   = true
+  lower   = true
+  numeric = true
 }

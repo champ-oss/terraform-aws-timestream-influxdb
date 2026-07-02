@@ -16,16 +16,7 @@ env:
   TF_INPUT: false
   TF_IN_AUTOMATION: true
   TF_STATE_BUCKET: "env-tfbackend-oss-backend"
-  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-  MONGODB_ATLAS_PRIVATE_KEY: ${{ secrets.MONGODB_ATLAS_PRIVATE_KEY }}
-  MONGODB_ATLAS_PUBLIC_KEY: ${{ secrets.MONGODB_ATLAS_PUBLIC_KEY }}
-  MONGODB_ATLAS_ORG: ${{ secrets.MONGODB_ATLAS_ORG }}
-  TF_VAR_mongodb_atlas_org: ${{ secrets.MONGODB_ATLAS_ORG }}
-  SLACK_URL: ${{ secrets.SLACK_URL }}
-  TF_VAR_slack_url: ${{ secrets.SLACK_URL }}
-  NEW_RELIC_API_KEY: ${{ secrets.NEW_RELIC_API_KEY }}
-  NEW_RELIC_REGION: ${{ secrets.NEW_RELIC_REGION }}
-  NEW_RELIC_ACCOUNT_ID: ${{ secrets.NEW_RELIC_ACCOUNT_ID }}
+  AWS_DEFAULT_REGION: us-east-2
   GITHUB_TOKEN: ${{ secrets.CHAMP_TESTING_GITHUB_TOKEN }}
   GITHUB_OWNER: "champ-testing"
 
@@ -65,9 +56,9 @@ jobs:
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
           aws-region: ${{ env.AWS_DEFAULT_REGION }}
-      - uses: hashicorp/setup-terraform@v3 # https://github.com/hashicorp/setup-terraform/releases
+      - uses: hashicorp/setup-terraform@v4 # https://github.com/hashicorp/setup-terraform/releases
         with:
-          terraform_version: 1.10.5 # https://github.com/hashicorp/terraform/releases
+          terraform_version: 1.12.2 # https://github.com/hashicorp/terraform/releases
           terraform_wrapper: false
       - name: copy lockfile
         run: cp ../complete/.terraform.lock.hcl . || true
@@ -103,23 +94,4 @@ jobs:
     steps:
       - run: exit 1
         if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}
-  github-issue-notification:
-    needs: [ module ]
-    if: failure() && github.ref_name == 'main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: set-env-info
-        run: |
-          echo "GIT_REPO=$(echo ${GITHUB_REPOSITORY} | sed -e 's|.*/||')" >> $GITHUB_ENV
-          echo "GITHUB_WORKFLOW_NAME=$(echo ${GITHUB_WORKFLOW} | sed -e 's|.*/||')" >> $GITHUB_ENV
-          echo "GITHUB_REF_NAME=$(echo ${GITHUB_REF_NAME})" >> $GITHUB_ENV
-      - name: github-issue-notification
-        uses: champ-oss/action-github-issue-notification@main
-        with:
-          GITHUB_TOKEN: ${{ secrets.ACTION_TOKEN }}
-          GITHUB_ORG: champ-oss
-          GITHUB_REPO: ${{ env.GIT_REPO }}
-          GITHUB_CUSTOM_LABEL: ${{ env.GITHUB_WORKFLOW_NAME }}
-          GITHUB_BRANCH_LABEL: ${{ env.GITHUB_REF_NAME }}
+
